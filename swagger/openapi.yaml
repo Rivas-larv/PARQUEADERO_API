@@ -1,0 +1,184 @@
+openapi: 3.0.0
+info:
+  title: Parqueadero API
+  version: 1.0.0
+  description: API para administrar el parqueadero de carros y motos
+servers:
+  - url: http://localhost:5000
+tags:
+  - name: Vehicles
+    description: Gestión de vehículos en el parqueadero
+    
+components:
+  schemas:
+    Vehicle:
+      type: object
+      required:
+        - plate
+        - type
+      properties:
+        id:
+          type: integer
+          description: ID autogenerado del vehículo
+        plate:
+          type: string
+          description: Placa del vehículo
+        type:
+          type: string
+          enum:
+            - car
+            - motorcycle
+          description: Tipo de vehículo
+        entryTime:
+          type: string
+          format: date-time
+          description: Fecha y hora de entrada del vehículo
+        exitTime:
+          type: string
+          format: date-time
+          description: Fecha y hora de salida del vehículo
+paths:
+  /api/vehicles:
+    post:
+      summary: Crear un nuevo vehículo
+      tags: [Vehicles]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        201:
+          description: Vehículo creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        400:
+          description: No hay cupos disponibles
+        500:
+          description: Error del servidor
+    get:
+      summary: Obtener todos los vehículos
+      tags: [Vehicles]
+      responses:
+        200:
+          description: Lista de todos los vehículos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicle'
+        500:
+          description: Error del servidor
+  /api/vehicles/{id}:
+    get:
+      summary: Obtener un vehículo por ID
+      tags: [Vehicles]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del vehículo
+      responses:
+        200:
+          description: Información del vehículo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        404:
+          description: Vehículo no encontrado
+        500:
+          description: Error del servidor
+    put:
+      summary: Actualizar la hora de salida de un vehículo
+      tags: [Vehicles]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del vehículo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                exitTime:
+                  type: string
+                  format: date-time
+      responses:
+        200:
+          description: Vehículo actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        404:
+          description: Vehículo no encontrado
+        500:
+          description: Error del servidor
+    patch:
+      summary: Actualizar datos de un vehículo
+      tags: [Vehicles]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del vehículo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                plate:
+                  type: string
+                  description: Nueva placa del vehículo
+                type:
+                  type: string
+                  enum: [car, motorcycle]
+                  description: Nuevo tipo de vehículo
+                entryTime:
+                  type: string
+                  format: date-time
+                  description: Nueva hora de entrada del vehículo
+      responses:
+        200:
+          description: Vehículo actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        404:
+          description: Vehículo no encontrado
+        500:
+          description: Error del servidor
+    delete:
+      summary: Eliminar un vehículo
+      tags: [Vehicles]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del vehículo
+      responses:
+        200:
+          description: Vehículo eliminado exitosamente
+        404:
+          description: Vehículo no encontrado
+        500:
+          description: Error del servidor
