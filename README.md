@@ -7,7 +7,7 @@ Esta es una API REST creada con Express.js y Sequelize como ORM para administrar
 1. **Clonar el repositorio:**
 
    GITHUB:
-   git clone https://github.com/Rivas-larv/PARQUEADERO_API.git
+   git clone https://github.com/Rivas-larv/Parqueadero_API.git
 
 2. **Abrir repositorio en VS Code e instalar dependencias**
 
