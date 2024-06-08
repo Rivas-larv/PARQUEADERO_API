@@ -46,7 +46,7 @@ Esta es una API REST creada con Express.js y Sequelize como ORM para administrar
    **READ ID - GET**
    URL: http://localhost:5000/api/vehicles/(id)
 
-   **UPDATE - PUT**
+   **UPDATE - PATCH**
    URL: http://localhost:5000/api/vehicles/(id)
    {
    "plate": "ABC123",
